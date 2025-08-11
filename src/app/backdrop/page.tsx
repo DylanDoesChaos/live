@@ -5,8 +5,9 @@ import { useMemo } from "react";
 interface Star {
   x: number;
   y: number;
-  radius: number;
-  offset: number;
+  r: number;
+  duration: number;
+  opacity: number;
 }
 
 export default function BackdropPage() {
@@ -15,16 +16,22 @@ export default function BackdropPage() {
       const stars: Star[] = [];
 
       // Calculate the number of stars based on the window size
-      const density = 0.001;
-      const numOfStars = window.outerWidth * window.outerHeight * density;
+      const density = 0.0015;
+      const numOfStars = Math.floor(
+        window.outerWidth * window.outerHeight * density
+      );
 
       // Generate the stars
       for (let i = 0; i < numOfStars; i++) {
+        // random x,y coords
         const x = Math.random() * window.outerWidth;
         const y = Math.random() * window.outerHeight;
-        const radius = Math.random();
-        const offset = Math.random() + 1;
-        stars.push({ x, y, radius, offset });
+        // random number between [0.5, 1)
+        const radius = Math.random() * 0.5 + 0.5;
+        const duration = Math.random() * 0.5 + 0.5;
+        // random number between [0.2, 0.7)
+        const opacity = Math.random() * 0.5 + 0.2;
+        stars.push({ x, y, r: radius, duration, opacity });
       }
 
       return stars;
@@ -40,14 +47,15 @@ export default function BackdropPage() {
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
         // Draw stars
-        ctx.fillStyle = "#FFFFFF";
         stars.forEach(star => {
+          ctx.fillStyle = "#FFFFFF";
+          ctx.globalAlpha = star.opacity;
           ctx.beginPath();
           ctx.arc(
             star.x,
             star.y,
             // on each animation frame, adjust the star's radius to ease in and out
-            star.radius * Math.sin(frame * star.offset * 0.005) ** 2,
+            0.5 + star.r * Math.sin(star.duration * frame * 0.005) ** 2,
             0,
             Math.PI * 2
           );
