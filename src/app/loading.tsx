@@ -1,4 +1,4 @@
-export default function BackdropLoadingPage() {
+export default function RootLoadingPage() {
   return (
     <div>
       <p>Loading...</p>

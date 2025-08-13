@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: "DylanDoesChaos | Backdrop",
 };
 
-export default function BackdropLayout({
+export default function TimerLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
