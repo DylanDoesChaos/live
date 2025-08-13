@@ -60,7 +60,7 @@ export default function BackdropPage() {
             y: (window.innerHeight - height) / 2,
             width,
             height,
-            radius: 64,
+            radius: 32,
           };
 
         case Variant.FaceCam:
@@ -71,7 +71,7 @@ export default function BackdropPage() {
             y: (window.innerHeight - height) / 2,
             width,
             height,
-            radius: 64,
+            radius: 32,
           };
       }
     }
@@ -85,7 +85,7 @@ export default function BackdropPage() {
         y: (window.innerHeight - height) / 2,
         width,
         height,
-        radius: 64,
+        radius: 32,
       };
     }
   }, [variant]);
@@ -97,9 +97,10 @@ export default function BackdropPage() {
         // Clear
         ctx.reset();
         ctx.fillStyle = "#000000";
+        ctx.strokeStyle = "#FFFFFF";
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
         // Draw stars
-        stars.forEach(star => {
+        for (const star of stars) {
           ctx.fillStyle = "#FFFFFF";
           ctx.globalAlpha = star.opacity;
           ctx.lineWidth = 1;
@@ -113,13 +114,14 @@ export default function BackdropPage() {
             Math.PI * 2
           );
           ctx.fill();
-        });
+        }
 
+        ctx.fillStyle = "#00FF00";
         ctx.globalAlpha = 1;
+        ctx.lineWidth = 8;
 
         // Draw rounded box with chroma key fill
         if (cameraBox) {
-          ctx.fillStyle = "#00FF00";
           ctx.roundRect(
             cameraBox.x,
             cameraBox.y,
@@ -128,14 +130,11 @@ export default function BackdropPage() {
             cameraBox.radius
           );
           ctx.fill();
-          ctx.strokeStyle = "#FFFFFF";
-          ctx.lineWidth = 4;
           ctx.stroke();
         }
 
         // Draw rounded box with chroma key fill
         if (chatBox) {
-          ctx.fillStyle = "#00FF00";
           ctx.roundRect(
             chatBox.x,
             chatBox.y,
@@ -144,8 +143,6 @@ export default function BackdropPage() {
             chatBox.radius
           );
           ctx.fill();
-          ctx.strokeStyle = "#FFFFFF";
-          ctx.lineWidth = 4;
           ctx.stroke();
         }
       }}
